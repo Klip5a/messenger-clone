@@ -7,6 +7,9 @@ import {
   useForm,
 } from 'react-hook-form';
 
+import Input from '@/app/components/inputs/Input';
+import Button from '@/app/components/Button';
+
 type Variant = 'LOGIN' | 'REGISTER';
 
 const AuthForm = () => {
@@ -70,7 +73,34 @@ const AuthForm = () => {
           sm:px-10
         '
       >
-        <form></form>
+        <form
+          className='space-y-6'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {variant === 'REGISTER' && (
+            <Input
+              id='name'
+              label='Name'
+              register={register}
+              errors={errors}
+            />
+          )}
+          <Input
+            id='email'
+            label='Email'
+            type='email'
+            register={register}
+            errors={errors}
+          />
+          <Input
+            id='password'
+            label='Password'
+            type='password'
+            register={register}
+            errors={errors}
+          />
+          <Button />
+        </form>
       </div>
     </div>
   );
