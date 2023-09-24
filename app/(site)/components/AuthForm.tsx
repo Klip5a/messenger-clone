@@ -1,28 +1,29 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 import {
   FieldValues,
   SubmitHandler,
   useForm,
-} from 'react-hook-form';
-import { BsGithub, BsGoogle } from 'react-icons/bs';
+} from "react-hook-form";
+import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
 
-import Input from '@/app/components/inputs/Input';
-import Button from '@/app/components/Button';
-import AuthSocialButton from './AuthSocialButton';
+import Input from "@/app/components/inputs/Input";
+import Button from "@/app/components/Button";
+import AuthSocialButton from "./AuthSocialButton";
 
-type Variant = 'LOGIN' | 'REGISTER';
+type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
-  const [variant, setVariant] = useState<Variant>('LOGIN');
+  const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
 
   const toggleVariant = useCallback(() => {
-    if (variant === 'LOGIN') {
-      setVariant('REGISTER');
+    if (variant === "LOGIN") {
+      setVariant("REGISTER");
     } else {
-      setVariant('LOGIN');
+      setVariant("LOGIN");
     }
   }, [variant]);
 
@@ -32,20 +33,20 @@ const AuthForm = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = data => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    if (variant === 'REGISTER') {
-      // Axios register
+    if (variant === "REGISTER") {
+      axios.post("/api/register", data);
     }
 
-    if (variant === 'LOGIN') {
+    if (variant === "LOGIN") {
       // NextAuth SignIn
     }
   };
@@ -58,106 +59,103 @@ const AuthForm = () => {
 
   return (
     <div
-      className='
+      className="
         mt-8
         sm:mx-auto
         sm:w-full
         sm:max-w-md
-      '
+      "
     >
       <div
-        className='
+        className="
           bg-white
           py-8
           px-6
           shadow
           sm:rounded-lg
           sm:px-10
-        '
+        "
       >
         <form
-          className='space-y-6'
+          className="space-y-6"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {variant === 'REGISTER' && (
+          {variant === "REGISTER" && (
             <Input
-              id='name'
-              label='Name'
+              disabled={isLoading}
               register={register}
               errors={errors}
-              disabled={isLoading}
+              required
+              id="name"
+              label="Name"
             />
           )}
           <Input
-            id='email'
-            label='Email'
-            type='email'
+            id="email"
+            label="Email"
+            type="email"
             register={register}
             errors={errors}
             disabled={isLoading}
           />
           <Input
-            id='password'
-            label='Password'
-            type='password'
+            id="password"
+            label="Password"
+            type="password"
             register={register}
             errors={errors}
             disabled={isLoading}
           />
           <div>
-            <Button
-              disabled={isLoading}
-              fullWidth
-              type='submit'
-            >
-              {variant === 'LOGIN' ? 'Sign in' : 'Register'}
+            <Button disabled={isLoading} fullWidth type="submit">
+              {variant === "LOGIN" ? "Sign in" : "Register"}
             </Button>
           </div>
         </form>
-        <div className='mt-6'>
-          <div className='relative'>
+        <div className="mt-6">
+          <div className="relative">
             <div
-              className='
+              className="
                 absolute
                 inset-0
                 flex
                 items-center
-              '
+              "
             >
-              <div className='w-full border-t border-gray-300' />
+              <div className="w-full border-t border-gray-300" />
             </div>
             <div
-              className='
+              className="
               relative 
               flex 
               justify-center 
-              text-sm'
+              text-sm"
             >
               <span
-                className='
+                className="
                 bg-white 
                 px-2 
-                text-gray-500'
+                text-gray-500"
               >
                 Or continue with
               </span>
             </div>
           </div>
 
-          <div className='mt-6 flex gap-2'>
+          <div className="mt-6 flex gap-2">
             <AuthSocialButton
               icon={BsGithub}
-              onClick={() => socialAction('github')}
+              onClick={() => socialAction("github")}
             />
             <AuthSocialButton
               icon={BsGoogle}
-              onClick={() => socialAction('google')}
+              onClick={() => socialAction("google")}
             />
           </div>
         </div>
 
         <div
-          className='
+          className="
             flex
             gap-2
             justify-center
@@ -165,20 +163,18 @@ const AuthForm = () => {
             mt-6
             px-2
             text-gray-500
-          '
+          "
         >
           <div>
-            {variant === 'LOGIN'
+            {variant === "LOGIN"
               ? "Don't have an account?"
-              : 'Already have an account?'}
+              : "Already have an account?"}
           </div>
           <div
             onClick={toggleVariant}
-            className='underline cursor-pointer'
+            className="underline cursor-pointer"
           >
-            {variant === 'LOGIN'
-              ? 'Create an account'
-              : 'Login'}
+            {variant === "LOGIN" ? "Create an account" : "Login"}
           </div>
         </div>
       </div>
