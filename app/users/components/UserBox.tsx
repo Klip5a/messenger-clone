@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { User } from '@prisma/client';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { User } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 
-import Avatar from '@/app/components/Avatar';
+import Avatar from "@/app/components/Avatar";
 
 interface UserBoxProps {
   data: User;
@@ -18,7 +18,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     setIsLoading(true);
 
     axios
-      .post('/api/conversations', {
+      .post("/api/conversations", {
         userId: data.id,
       })
       .then(() => {
@@ -29,7 +29,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
   return (
     <div
       onClick={handleClick}
-      className='
+      className="
         w-full 
         relative 
         flex 
@@ -41,25 +41,25 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
         rounded-lg 
         transition 
         cursor-pointer
-      '
+      "
     >
       <Avatar user={data} />
-      <div className='min-w-0 flex-1'>
-        <div className='focus:outline-none'>
+      <div className="min-w-0 flex-1">
+        <div className="focus:outline-none">
           <div
-            className='
+            className="
               flex
               justify-between
               items-center
               mb-1
-            '
+            "
           >
             <p
-              className='
+              className="
                 text-sm
                 font-medium
                 text-gray-900
-              '
+              "
             >
               {data.name}
             </p>
